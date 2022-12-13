@@ -1,0 +1,16 @@
+Database:
+
+Event
+- date
+- time
+- Users
+
+
+
+
+
+
+A user should be able to see event details
+A user should be able to sign up to the event
+A user should be able to remove themself from the event
+A user should be able to CRUD an event
