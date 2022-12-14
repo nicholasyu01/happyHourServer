@@ -6,6 +6,7 @@ mongoose.connect('mongodb+srv://admin:admin@happyhourcluster.aqtxpmq.mongodb.net
 // create a server
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 // define the schema for our database
 const Schema = mongoose.Schema;
@@ -71,12 +72,16 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
+    people: {
+      type: Array,
+      required: false
+    }
 
 })
 
 const Event = mongoose.model('Event', eventSchema);
 
-app.get('/events', (req, res) => {
+app.get('/api/events', (req, res) => {
     Event.find({}, (err, events) => {
       if (err) {
         console.log(err);
@@ -87,7 +92,7 @@ app.get('/events', (req, res) => {
     });
   });
   
-app.post('/event', (req, res) => {
+app.post('/api/event', (req, res) => {
     const event = new Event(req.body);
     event.save(err => {
       if (err) {
@@ -95,6 +100,27 @@ app.post('/event', (req, res) => {
         res.status(400).json({error: err});
       } else {
         res.status(200).json({event: event});
+      }
+  });
+});
+
+app.post('/api/event/addPerson', (req, res) => {
+  Event.findByIdAndUpdate(
+    req.body.id,
+    { 
+      $push: {
+        people: {
+        name: req.body.name,
+        }
+      }
+    },
+    err => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({error: err});
+      } else {
+        console.log("sucess");
+        res.status(200).json("success");
       }
   });
 });
