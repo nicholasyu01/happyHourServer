@@ -93,6 +93,18 @@ app.get('/api/events', (req, res) => {
       }
     });
   });
+
+app.get('/api/event/:id', (req, res) => {
+  const id = req.params.id;
+  Event.findById(id, (err, event) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({error: err});
+    } else {
+      res.status(200).json({event: event});
+    }
+  });
+});
   
 app.post('/api/event', (req, res) => {
     const event = new Event(req.body);
@@ -152,7 +164,7 @@ app.post('/api/event/removePerson', (req, res) => {
 
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5001;
 
 // start the server
 app.listen(port, () => {
