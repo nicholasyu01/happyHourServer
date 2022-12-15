@@ -2,6 +2,5 @@
 applications:
 - name: HappHourServer
   instances: 1
-  memory: 2048M
   buildpack: nodejs_buildpack
   path: .

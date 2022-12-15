@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // connect to a local MongoDB database
 mongoose.connect('mongodb+srv://admin:admin@happyhourcluster.aqtxpmq.mongodb.net/test', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -7,6 +8,7 @@ mongoose.connect('mongodb+srv://admin:admin@happyhourcluster.aqtxpmq.mongodb.net
 const express = require('express');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // define the schema for our database
 const Schema = mongoose.Schema;
