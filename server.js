@@ -125,10 +125,34 @@ app.post('/api/event/addPerson', (req, res) => {
   });
 });
 
+app.post('/api/event/removePerson', (req, res) => {
+  Event.findByIdAndUpdate(
+    req.body.id,
+    { 
+      $pull: {
+        people: {
+        name: req.body.name,
+        }
+      }
+    },
+    err => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({error: err});
+      } else {
+        console.log("sucess");
+        res.status(200).json("success");
+      }
+  });
+});
 
 
+
+
+
+const port = process.env.PORT || 3000;
 
 // start the server
-app.listen(5001, () => {
+app.listen(port, () => {
   console.log('Server started on port 5001');
 });
