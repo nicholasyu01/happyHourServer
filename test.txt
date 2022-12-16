@@ -7,6 +7,13 @@ Event
 - people
 - polls
 
+new feautures:
+- rsvp status
+- polls
+- comments
+- map
+- share location 
+- suggust new time
 
 
 

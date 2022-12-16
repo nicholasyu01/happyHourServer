@@ -77,6 +77,10 @@ const eventSchema = new Schema({
     people: {
       type: Array,
       required: false
+    },
+    poll: {
+      type: Array,
+      required: false
     }
 
 })
@@ -159,6 +163,45 @@ app.post('/api/event/removePerson', (req, res) => {
       }
   });
 });
+
+app.post('/api/event/addVote', (req, res) => {
+  Event.update( {_id: req.body.id, "poll.pollItem": req.body.pollItem},
+  {
+    $set: {
+        "poll.$.pollItem": req.body.pollItem,
+        "poll.$.votes": req.body.votes + 1,
+     }
+  },
+    err => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({error: err});
+      } else {
+        console.log("sucess");
+        res.status(200).json("success");
+      }
+  });
+});
+
+app.post('/api/event/removeVote', (req, res) => {
+  Event.update( {_id: req.body.id, "poll.pollItem": req.body.pollItem},
+  {
+    $set: {
+        "poll.$.pollItem": req.body.pollItem,
+        "poll.$.votes": req.body.votes - 1,
+     }
+  },
+    err => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({error: err});
+      } else {
+        console.log("sucess");
+        res.status(200).json("success");
+      }
+  });
+});
+
 
 
 
