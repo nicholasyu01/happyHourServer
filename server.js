@@ -81,6 +81,10 @@ const eventSchema = new Schema({
     poll: {
       type: Array,
       required: false
+    },
+    openInvite: {
+      type: Boolean,
+      required: true
     }
 
 })
@@ -189,6 +193,25 @@ app.post('/api/event/removeVote', (req, res) => {
     $set: {
         "poll.$.pollItem": req.body.pollItem,
         "poll.$.votes": req.body.votes - 1,
+     }
+  },
+    err => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({error: err});
+      } else {
+        console.log("sucess");
+        res.status(200).json("success");
+      }
+  });
+});
+
+app.post('/api/event/updateGoing', (req, res) => {
+  Event.update( {_id: req.body.id, "people.name": req.body.name},
+  {
+    $set: {
+        "people.$.name": req.body.name,
+        "people.$.going": req.body.going,
      }
   },
     err => {
